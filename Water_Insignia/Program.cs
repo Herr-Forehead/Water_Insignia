@@ -20,28 +20,18 @@ Raylib.InitAudioDevice();
 
 Color selectorBlue = new Color(0, 102, 204, 127);
 
-//Sprites + Images + Variables
+//Sprites, Images and Variables
 Texture2D bkgImage = Raylib.LoadTexture("background.png");
-Texture2D AvatarImage = Raylib.LoadTexture("gremory.png");
-Rectangle AvatarRectStart = new Rectangle(0, 64, AvatarImage.width, AvatarImage.height);
+Infantry i = new Infantry(Raylib.LoadTexture("gremory.png"), 0, 64);
+Infantry i2 = new Infantry(Raylib.LoadTexture("stolencharacteravatar.png"), 64, 64);
+Flyer i3 = new Flyer(Raylib.LoadTexture("Barbarossa.png"), 0, 768);
 Rectangle AvatarRect;
-Texture2D AvatarImage2 = Raylib.LoadTexture("stolencharacteravatar.png");
-Rectangle AvatarRect2Start = new Rectangle(64, 64, AvatarImage2.width, AvatarImage2.height);
 Rectangle AvatarRect2;
-Texture2D EnemyImage = Raylib.LoadTexture("Barbarossa.png");
-Rectangle EnemyRect = new Rectangle(0, 768, EnemyImage.width, EnemyImage.height);
+Rectangle Enemyrect;
 Rectangle Selector = new Rectangle(0, 0, 32, 32);
 int tileSize = 32;
 string currentScene = "start";
 int characters = 2;
-
-// Movements
-int plrInfMov = 2;
-int plrInfMov2 = 2;
-int nmyFlyMov = 5;
-
-// Music tracks
-
 
 while (!Raylib.WindowShouldClose())
 {
@@ -49,6 +39,9 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == "start")
     {
+        AvatarRect = i.rect;
+        AvatarRect2 = i2.rect;
+        Enemyrect = i3.rect;
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
         {
             currentScene = "plrTurn";
@@ -57,8 +50,6 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "plrTurn")
     {
         // movement
-        AvatarRect = AvatarRectStart;
-        AvatarRect2 = AvatarRect2Start;
         if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
         {
             Selector.x += 32;
@@ -79,61 +70,60 @@ while (!Raylib.WindowShouldClose())
 
         // Give avatar characters movement and movement limits
         // Make it so they only move when in contact with selector
-        if (Raylib.CheckCollisionRecs(Selector, AvatarRectStart) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, AvatarRectStart) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        if (Raylib.CheckCollisionRecs(Selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
         {
-            if (plrInfMov >= 0)
+            if (i.mov >= 0)
             {
                 if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
-                {
-                    AvatarRectStart.x += 32;
-                    plrInfMov--;
-                }
-                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
-                {
-                    AvatarRectStart.x -= 32;
-                    plrInfMov--;
-                }
-                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
-                {
-                    AvatarRectStart.y -= 32;
-                    plrInfMov--;
-                }
-                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
-                {
-                    AvatarRectStart.y += 32;
-                    plrInfMov--;
-                }
+
+                    i.startPos.x += 32;
+                i.mov--;
+            }
+            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
+            {
+                i.startPos.x -= 32;
+                i.mov--;
+            }
+            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
+            {
+                i.startPos.y -= 32;
+                i.mov--;
+            }
+            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
+            {
+                i.startPos.y += 32;
+                i.mov--;
             }
         }
-        else if (Raylib.CheckCollisionRecs(Selector, AvatarRect2Start) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, AvatarRect2Start) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        else if (Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
         {
-            if (plrInfMov2 >= 0)
+            if (i2.mov >= 0)
             {
 
                 if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
                 {
-                    AvatarRect2Start.x += 32;
-                    plrInfMov2--;
+                    i2.rect.x += 32;
+                    i2.mov--;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
                 {
-                    AvatarRect2Start.x -= 32;
-                    plrInfMov2--;
+                    i2.rect.x -= 32;
+                    i2.mov--;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
                 {
-                    AvatarRect2Start.y -= 32;
-                    plrInfMov2--;
+                    i2.rect.y -= 32;
+                    i2.mov--;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
                 {
-                    AvatarRect2Start.y += 32;
-                    plrInfMov2--;
+                    i2.rect.y += 32;
+                    i2.mov--;
                 }
             }
         }
         // death condition
-        if (Raylib.CheckCollisionRecs(AvatarRectStart, EnemyRect) || Raylib.CheckCollisionRecs(AvatarRect2Start, EnemyRect))
+        if (Raylib.CheckCollisionRecs(i.rect, i3.rect) || Raylib.CheckCollisionRecs(i2.rect, i3.rect))
         {
             currentScene = "death";
             characters -= 1;
@@ -144,10 +134,10 @@ while (!Raylib.WindowShouldClose())
             currentScene = "gameOver";
         }
         // enemy movement amount reset
-        if (plrInfMov < 0 && plrInfMov2 < 0)
+        if (i.mov < 0 && i2.mov < 0)
         {
             currentScene = "nmyTurn";
-            nmyFlyMov = 5;
+            i3.mov = 5;
         }
     }
     else if (currentScene == "nmyTurn")
@@ -156,37 +146,37 @@ while (!Raylib.WindowShouldClose())
 
         // Give enemy movement and movement limit
         // Make enemy movement based off of avatar position
-        if (AvatarRectStart.x > EnemyRect.x)
+        if (i.startPos.x > i3.rect.x)
         {
-            EnemyRect.x += 32;
-            nmyFlyMov--;
+            i3.rect.x += 32;
+            i3.mov--;
         }
-        else if (AvatarRectStart.x < EnemyRect.x)
+        else if (i.startPos.x < i3.rect.x)
         {
-            EnemyRect.x -= 32;
-            nmyFlyMov--;
+            i3.rect.x -= 32;
+            i3.mov--;
         }
-        else if (AvatarRectStart.y > EnemyRect.y)
+        else if (i.startPos.y > i3.rect.y)
         {
-            EnemyRect.y += 32;
-            nmyFlyMov--;
+            i3.rect.y += 32;
+            i3.mov--;
         }
-        else if (AvatarRectStart.y < EnemyRect.y)
+        else if (i.startPos.y < i3.rect.y)
         {
-            EnemyRect.y -= 32;
-            nmyFlyMov--;
+            i3.rect.y -= 32;
+            i3.mov--;
         }
         // death condition
-        if (Raylib.CheckCollisionRecs(AvatarRectStart, EnemyRect) || Raylib.CheckCollisionRecs(AvatarRect2Start, EnemyRect))
+        if (Raylib.CheckCollisionRecs(i.rect, i3.rect) || Raylib.CheckCollisionRecs(i2.rect, i3.rect))
         {
             currentScene = "death";
         }
         // avatar movement reset
-        if (nmyFlyMov < 0 || nmyFlyMov == 0)
+        if (i3.mov < 0 || i3.mov == 0)
         {
             currentScene = "plrTurn";
-            plrInfMov = 2;
-            plrInfMov2 = 2;
+            i.Reset();
+            i2.Reset();
         }
     }
     else if (currentScene == "death")
@@ -226,9 +216,9 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "plrTurn" || currentScene == "nmyTurn")
     {
         Raylib.DrawTexture(bkgImage, 0, 0, Color.WHITE);
-        Raylib.DrawTexture(AvatarImage, (int)AvatarRectStart.x, (int)AvatarRectStart.y, Color.WHITE);
-        Raylib.DrawTexture(AvatarImage2, (int)AvatarRect2Start.x, (int)AvatarRect2Start.y, Color.WHITE);
-        Raylib.DrawTexture(EnemyImage, (int)EnemyRect.x, (int)EnemyRect.y, Color.WHITE);
+        Raylib.DrawTexture(i.sprite, (int)i.startPos.x, (int)i.startPos.y, Color.WHITE);
+        Raylib.DrawTexture(i2.sprite, (int)i2.rect.x, (int)i2.rect.y, Color.WHITE);
+        Raylib.DrawTexture(i3.sprite, (int)i3.rect.x, (int)i3.rect.y, Color.WHITE);
         Raylib.DrawRectangleRec(Selector, selectorBlue);
 
         for (int x = 0; x < Raylib.GetScreenWidth() + 1 / tileSize; x++)
