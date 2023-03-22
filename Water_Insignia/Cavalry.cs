@@ -7,7 +7,13 @@ public class Cavalry
      public Rectangle rect;
      public (int x, int y) startPos;
      public Stats stats = new Stats();
-     public int mov = 5;
+     public int mov = 6;
+      public int maxMov = 6;
+
+    public void Reset()
+    {
+        mov = maxMov;
+    }
 
     public Cavalry(Texture2D s, int startX, int startY)
     {

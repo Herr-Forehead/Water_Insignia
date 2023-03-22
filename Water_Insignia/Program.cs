@@ -10,7 +10,7 @@
 
 // if I get this far, try to add enemies and add turns
 // different weapon types and character classes
-// add weapon durability
+// add weapon durability (Maybe unnecessary)
 // add stats and combat
 // feebly attempt to make somewhat of an enemy AI
 
@@ -25,9 +25,6 @@ Texture2D bkgImage = Raylib.LoadTexture("background.png");
 Infantry i = new Infantry(Raylib.LoadTexture("gremory.png"), 0, 64);
 Infantry i2 = new Infantry(Raylib.LoadTexture("stolencharacteravatar.png"), 64, 64);
 Flyer i3 = new Flyer(Raylib.LoadTexture("Barbarossa.png"), 0, 768);
-Rectangle AvatarRect;
-Rectangle AvatarRect2;
-Rectangle Enemyrect;
 Rectangle Selector = new Rectangle(0, 0, 32, 32);
 int tileSize = 32;
 string currentScene = "start";
@@ -39,9 +36,12 @@ while (!Raylib.WindowShouldClose())
 
     if (currentScene == "start")
     {
-        AvatarRect = i.rect;
-        AvatarRect2 = i2.rect;
-        Enemyrect = i3.rect;
+        i.rect.x = i.startPos.x;
+        i2.rect.x = i2.startPos.x;
+        i3.rect.x = i3.startPos.x;
+        i.rect.y = i.startPos.y;
+        i2.rect.y = i2.startPos.y;
+        i3.rect.y = i3.startPos.y;
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
         {
             currentScene = "plrTurn";
@@ -75,24 +75,26 @@ while (!Raylib.WindowShouldClose())
             if (i.mov >= 0)
             {
                 if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
+                {
 
-                    i.startPos.x += 32;
-                i.mov--;
-            }
-            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
-            {
-                i.startPos.x -= 32;
-                i.mov--;
-            }
-            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
-            {
-                i.startPos.y -= 32;
-                i.mov--;
-            }
-            else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
-            {
-                i.startPos.y += 32;
-                i.mov--;
+                    i.rect.x += 32;
+                    i.mov-= 1;
+                }
+                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
+                 {
+                    i.rect.x -= 32;
+                    i.mov-= 1;
+                 }
+                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
+                 {
+                    i.rect.y -= 32;
+                    i.mov-= 1;
+                 }
+                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
+                 {
+                    i.rect.y += 32;
+                    i.mov-= 1;
+                 }
             }
         }
         else if (Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
@@ -103,22 +105,22 @@ while (!Raylib.WindowShouldClose())
                 if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
                 {
                     i2.rect.x += 32;
-                    i2.mov--;
+                    i2.mov-= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
                 {
                     i2.rect.x -= 32;
-                    i2.mov--;
+                    i2.mov-= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
                 {
                     i2.rect.y -= 32;
-                    i2.mov--;
+                    i2.mov-= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
                 {
                     i2.rect.y += 32;
-                    i2.mov--;
+                    i2.mov-= 1;
                 }
             }
         }
@@ -134,10 +136,10 @@ while (!Raylib.WindowShouldClose())
             currentScene = "gameOver";
         }
         // enemy movement amount reset
-        if (i.mov < 0 && i2.mov < 0)
+        if (i.mov == 0 && i2.mov == 0 || i.mov < 0 && i2.mov < 0)
         {
             currentScene = "nmyTurn";
-            i3.mov = 5;
+            i3.Reset();
         }
     }
     else if (currentScene == "nmyTurn")
@@ -146,22 +148,22 @@ while (!Raylib.WindowShouldClose())
 
         // Give enemy movement and movement limit
         // Make enemy movement based off of avatar position
-        if (i.startPos.x > i3.rect.x)
+        if (i.rect.x > i3.rect.x)
         {
             i3.rect.x += 32;
             i3.mov--;
         }
-        else if (i.startPos.x < i3.rect.x)
+        else if (i.rect.x < i3.rect.x)
         {
             i3.rect.x -= 32;
             i3.mov--;
         }
-        else if (i.startPos.y > i3.rect.y)
+        else if (i.rect.y > i3.rect.y)
         {
             i3.rect.y += 32;
             i3.mov--;
         }
-        else if (i.startPos.y < i3.rect.y)
+        else if (i.rect.y < i3.rect.y)
         {
             i3.rect.y -= 32;
             i3.mov--;
@@ -185,7 +187,6 @@ while (!Raylib.WindowShouldClose())
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
         {
             currentScene = "start";
-            // bugged
         }
     }
     else if (currentScene == "gameOver")
@@ -216,7 +217,7 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "plrTurn" || currentScene == "nmyTurn")
     {
         Raylib.DrawTexture(bkgImage, 0, 0, Color.WHITE);
-        Raylib.DrawTexture(i.sprite, (int)i.startPos.x, (int)i.startPos.y, Color.WHITE);
+        Raylib.DrawTexture(i.sprite, (int)i.rect.x, (int)i.rect.y, Color.WHITE);
         Raylib.DrawTexture(i2.sprite, (int)i2.rect.x, (int)i2.rect.y, Color.WHITE);
         Raylib.DrawTexture(i3.sprite, (int)i3.rect.x, (int)i3.rect.y, Color.WHITE);
         Raylib.DrawRectangleRec(Selector, selectorBlue);

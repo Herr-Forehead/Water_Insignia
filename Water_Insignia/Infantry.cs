@@ -8,8 +8,8 @@ public class Infantry
     public Rectangle rect;
     public (int x, int y) startPos;
     public Stats stats = new Stats();
-    public int mov = 2;
-    public int maxMov = 2;
+    public int mov = 3;
+    public int maxMov = 3;
 
     public void Reset()
     {
