@@ -2,16 +2,16 @@
 
 // Fire emblemesque game
 
-// create tilesystem
-// make it so that characters can only move through the tiles and only a certain amount of tiles
-// add different kinds of tiles that restrict or affect movement like water or forrest tiles
-// add more characters with different movement types
-// add music
+// create tilesystem, done
+// make it so that characters can only move through the tiles and only a certain amount of tiles, done
+// add different kinds of tiles that restrict or affect movement like water or forrest tiles, priority 
+// add more characters with different movement types, done
+// add music, done
 
-// if I get this far, try to add enemies and add turns
+// if I get this far, try to add enemies and add turns, done
 // different weapon types and character classes
 // add weapon durability (Maybe unnecessary)
-// add stats and combat
+// add stats and combat, started
 // feebly attempt to make somewhat of an enemy AI
 
 Raylib.InitWindow(600, 800, "Water Insignia");
