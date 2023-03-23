@@ -14,6 +14,9 @@
 // add stats and combat, started
 // feebly attempt to make somewhat of an enemy AI
 
+Tile t = new Tile(Tile.TileType.Sea);
+
+
 Raylib.InitWindow(600, 800, "Water Insignia");
 Raylib.SetTargetFPS(60);
 Raylib.InitAudioDevice();
@@ -37,10 +40,10 @@ while (!Raylib.WindowShouldClose())
     if (currentScene == "start")
     {
         i.rect.x = i.startPos.x;
-        i2.rect.x = i2.startPos.x;
-        i3.rect.x = i3.startPos.x;
         i.rect.y = i.startPos.y;
+        i2.rect.x = i2.startPos.x;
         i2.rect.y = i2.startPos.y;
+        i3.rect.x = i3.startPos.x;
         i3.rect.y = i3.startPos.y;
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
         {
@@ -78,23 +81,23 @@ while (!Raylib.WindowShouldClose())
                 {
 
                     i.rect.x += 32;
-                    i.mov-= 1;
+                    i.mov -= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
-                 {
+                {
                     i.rect.x -= 32;
-                    i.mov-= 1;
-                 }
-                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
-                 {
+                    i.mov -= 1;
+                }
+                else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
+                {
                     i.rect.y -= 32;
-                    i.mov-= 1;
-                 }
+                    i.mov -= 1;
+                }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
-                 {
+                {
                     i.rect.y += 32;
-                    i.mov-= 1;
-                 }
+                    i.mov -= 1;
+                }
             }
         }
         else if (Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
@@ -105,22 +108,22 @@ while (!Raylib.WindowShouldClose())
                 if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
                 {
                     i2.rect.x += 32;
-                    i2.mov-= 1;
+                    i2.mov -= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
                 {
                     i2.rect.x -= 32;
-                    i2.mov-= 1;
+                    i2.mov -= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
                 {
                     i2.rect.y -= 32;
-                    i2.mov-= 1;
+                    i2.mov -= 1;
                 }
                 else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
                 {
                     i2.rect.y += 32;
-                    i2.mov-= 1;
+                    i2.mov -= 1;
                 }
             }
         }
