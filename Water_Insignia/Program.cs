@@ -14,7 +14,7 @@
 // add stats and combat, started
 // feebly attempt to make somewhat of an enemy AI
 
-Tile t = new Tile(Tile.TileType.Sea);
+// Tile t = new Tile(Tile.TileType.Sea);
 
 
 Raylib.InitWindow(600, 800, "Water Insignia");

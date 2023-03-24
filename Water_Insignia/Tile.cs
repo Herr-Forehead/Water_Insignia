@@ -10,5 +10,18 @@ public class Tile
     public Tile(TileType t)
     {
         type = t;
+
+        if (t == TileType.Sea)
+        {
+            // 
+        }
+        else if (t == TileType.Forest)
+        {
+            // 
+        }
+        else if(t == TileType.Mountain)
+        {
+            // 
+        }
     }
 }
