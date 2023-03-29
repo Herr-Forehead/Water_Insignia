@@ -4,7 +4,7 @@
 
 // create tilesystem, done
 // make it so that characters can only move through the tiles and only a certain amount of tiles, done
-// add different kinds of tiles that restrict or affect movement like water or forrest tiles, priority 
+// add different kinds of tiles that restrict or affect movement like water or forest tiles, priority 
 // add more characters with different movement types, done
 // add music, done
 
