@@ -1,4 +1,5 @@
 using System;
+using Raylib_cs;
 
 
 public class Tile
@@ -6,10 +7,12 @@ public class Tile
     public enum TileType { Sea, Forest, Mountain };
 
     public TileType type;
+    public Rectangle rect;
 
     public Tile(TileType t)
     {
         type = t;
+        
 
         if (t == TileType.Sea)
         {
