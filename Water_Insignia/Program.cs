@@ -16,12 +16,22 @@
 
 // Tile t = new Tile(Tile.TileType.Sea);
 
+List<Tile> tiles = new List<Tile>();
+for (int y = 0; y < 26; y++)
+{
+   for (int x = 0; x < 20; x++)
+    {
+        new Rectangle(x*32, 0, 32, 32);
+    }   
+}
+
 
 Raylib.InitWindow(600, 800, "Water Insignia");
 Raylib.SetTargetFPS(60);
 Raylib.InitAudioDevice();
 
 Color selectorBlue = new Color(0, 102, 204, 127);
+Color Transparent = new Color(255, 255, 255, 255);
 
 //Sprites, Images and Variables
 Texture2D bkgImage = Raylib.LoadTexture("background.png");
