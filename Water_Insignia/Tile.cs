@@ -1,10 +1,5 @@
 using System;
 using Raylib_cs;
-// create system for different types of tiles
-// create a variable with enum
-// use to create subtypes
-// use if and else to create conditions for the different tiles
-// use loop to make rectangles 
 
 
 public class Tile

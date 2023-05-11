@@ -17,12 +17,17 @@
 // Tile t = new Tile(Tile.TileType.Sea);
 
 List<Tile> tiles = new List<Tile>();
+int tileSize = 32;
 for (int y = 0; y < 26; y++)
 {
-   for (int x = 0; x < 20; x++)
+    // tiles.Add(new Tile);
+    // new Rectangle(y*32, 0, 32, 32);
+    for (int x = 0; x < 20; x++)
     {
-        new Rectangle(x*32, 0, 32, 32);
-    }   
+        Tile t = new Tile(Tile.TileType.Regular);
+        t.rect = new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize);
+        tiles.Add(t);
+    }
 }
 
 
@@ -31,15 +36,15 @@ Raylib.SetTargetFPS(60);
 Raylib.InitAudioDevice();
 
 Color selectorBlue = new Color(0, 102, 204, 127);
-Color Transparent = new Color(255, 255, 255, 255);
+Color transparent = new Color(255, 255, 255, 255);
 
 //Sprites, Images and Variables
 Texture2D bkgImage = Raylib.LoadTexture("background.png");
 Infantry i = new Infantry(Raylib.LoadTexture("gremory.png"), 0, 64);
 Infantry i2 = new Infantry(Raylib.LoadTexture("stolencharacteravatar.png"), 64, 64);
 Flyer i3 = new Flyer(Raylib.LoadTexture("Barbarossa.png"), 0, 768);
-Rectangle Selector = new Rectangle(0, 0, 32, 32);
-int tileSize = 32;
+Rectangle selector = new Rectangle(0, 0, 32, 32);
+// int tileSize = 32;
 string currentScene = "start";
 int characters = 2;
 
@@ -62,28 +67,33 @@ while (!Raylib.WindowShouldClose())
     }
     else if (currentScene == "plrTurn")
     {
+        // controls list
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_I))
+        {
+            currentScene = "controls";
+        }
         // movement
         if (Raylib.IsKeyReleased(KeyboardKey.KEY_RIGHT))
         {
-            Selector.x += 32;
+            selector.x += 32;
         }
         else if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT))
         {
-            Selector.x -= 32;
+            selector.x -= 32;
         }
         else if (Raylib.IsKeyReleased(KeyboardKey.KEY_UP))
         {
-            Selector.y -= 32;
+            selector.y -= 32;
         }
         else if (Raylib.IsKeyReleased(KeyboardKey.KEY_DOWN))
         {
-            Selector.y += 32;
+            selector.y += 32;
         }
         // moving characters
 
         // Give avatar characters movement and movement limits
         // Make it so they only move when in contact with selector
-        if (Raylib.CheckCollisionRecs(Selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        if (Raylib.CheckCollisionRecs(selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(selector, i.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
         {
             if (i.mov >= 0)
             {
@@ -110,7 +120,7 @@ while (!Raylib.WindowShouldClose())
                 }
             }
         }
-        else if (Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(Selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        else if (Raylib.CheckCollisionRecs(selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_ENTER) || Raylib.CheckCollisionRecs(selector, i2.rect) == true && Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
         {
             if (i2.mov >= 0)
             {
@@ -213,6 +223,13 @@ while (!Raylib.WindowShouldClose())
     {
         // as of yet, not achievable
     }
+    else if (currentScene == "controls")
+    {
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
+        {
+            currentScene = "plrTurn";
+        }
+    }
 
     // Music
 
@@ -226,6 +243,7 @@ while (!Raylib.WindowShouldClose())
     if (currentScene == "start")
     {
         Raylib.DrawText("press Enter to start", 100, 300, 48, Color.DARKBLUE);
+        Raylib.DrawText("press I for controls, while ingame", 100, 700, 12, Color.BLACK);
     }
     else if (currentScene == "plrTurn" || currentScene == "nmyTurn")
     {
@@ -233,7 +251,7 @@ while (!Raylib.WindowShouldClose())
         Raylib.DrawTexture(i.sprite, (int)i.rect.x, (int)i.rect.y, Color.WHITE);
         Raylib.DrawTexture(i2.sprite, (int)i2.rect.x, (int)i2.rect.y, Color.WHITE);
         Raylib.DrawTexture(i3.sprite, (int)i3.rect.x, (int)i3.rect.y, Color.WHITE);
-        Raylib.DrawRectangleRec(Selector, selectorBlue);
+        Raylib.DrawRectangleRec(selector, selectorBlue);
 
         for (int x = 0; x < Raylib.GetScreenWidth() + 1 / tileSize; x++)
         {
@@ -256,6 +274,19 @@ while (!Raylib.WindowShouldClose())
     else if (currentScene == "end")
     {
         Raylib.DrawText("impossible", 100, 300, 38, Color.DARKBLUE);
+    }
+    else if (currentScene == "controls")
+    {
+        Raylib.DrawText("Controls", 25, 10, 48, Color.BLACK);
+        Raylib.DrawText("press directional key plus space or enter to", 25, 50, 24, Color.BLACK);
+        Raylib.DrawText("push unit in desired direction", 25, 70, 24, Color.BLACK);
+        Raylib.DrawText("end turn by using up both units movement count", 25, 110, 24, Color.BLACK);
+        Raylib.DrawText("Goal:", 25, 140, 48, Color.BLACK);
+        Raylib.DrawText("Route map", 25, 180, 24, Color.BLACK);
+        Raylib.DrawText("Map types:", 25, 200, 48, Color.BLACK);
+        Raylib.DrawText("Route map: Kill all enemies", 25, 250, 24, Color.BLACK);
+        Raylib.DrawText("Defeat commander: Kill boss", 25, 270, 24, Color.BLACK);
+        Raylib.DrawText("wouldn't logically have one, as I want a retro feel", 10, 790, 1, Color.BLACK);
     }
 
     // hielo

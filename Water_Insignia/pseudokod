@@ -1,0 +1,6 @@
+Pseudocode 
+create list
+run for loop 26 times
+    add tile/rectangles to list every run
+    run seperate for loop indide the previous loop 20 times
+        add tile/rectangles to list every run
